@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Descoberta do Elemento Feng Shui</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .instructions h2 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #6c757d;
+        }
+
+        .instructions li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .user-info h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #495057;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group label .required {
+            color: #dc3545;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group input.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .element-section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .element-section h3 {
+            color: #495057;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .element-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: #e7f3ff;
+            transform: translateX(5px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            user-select: none;
+            color: #495057;
+            font-size: 0.95em;
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .submit-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .results {
+            display: none;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 40px;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results h2 {
+            color: #495057;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .dominant-element {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .dominant-element h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .dominant-element p {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        .all-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card h4 {
+            color: #495057;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .result-card .count {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .restart-button {
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .restart-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+
+            .element-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 Questionário de Descoberta do Elemento Feng Shui</h1>
+            <p>Descubra qual elemento representa sua essência energética</p>
+        </div>
+
+        <div class="instructions">
+            <h2>Como funciona:</h2>
+            <ul>
+                <li>Reserve 15 minutos para responder com calma</li>
+                <li>Leia cada lista e marque todas as palavras com as quais você se identifica</li>
+                <li>Não importa se a palavra é positiva ou negativa - marque se ela descreve você</li>
+                <li>Confie na sua intuição</li>
+            </ul>
+            <p style="margin-top: 20px; color: #495057; font-weight: bold;">O elemento com mais palavras selecionadas é o seu elemento dominante!</p>
+        </div>
+
+        <div class="user-info">
+            <h3>Suas Informações</h3>
+            <div class="input-group">
+                <label for="userName">Nome: <span class="required">*</span></label>
+                <input type="text" id="userName" placeholder="Seu nome" required>
+                <span class="error-message" id="nameError">Por favor, insira seu nome</span>
+            </div>
+            <div class="input-group">
+                <label for="userEmail">Email: <span class="required">*</span></label>
+                <input type="email" id="userEmail" placeholder="seu@email.com" required>
+                <span class="error-message" id="emailError">Por favor, insira um email válido</span>
+            </div>
+        </div>
+
+        <div class="form-content" id="formContent">
+            <form id="fengShuiForm">
+                <!-- Elemento 1 -->
+                <div class="element-section">
+                    <h3>Questão 1 <span class="element-count" id="count1">0 selecionadas</span></h3>
+                    <div class="checkbox-grid" id="element1"></div>
+                </div>
+
+                <!-- Elemento 2 -->
+                <div class="element-section">
+                    <h3>Questão 2 <span class="element-count" id="count2">0 selecionadas</span></h3>
+                    <div class="checkbox-grid" id="element2"></div>
+                </div>
+
+                <!-- Elemento 3 -->
+                <div class="element-section">
+                    <h3>Questão 3 <span class="element-count" id="count3">0 selecionadas</span></h3>
+                    <div class="checkbox-grid" id="element3"></div>
+                </div>
+
+                <!-- Elemento 4 -->
+                <div class="element-section">
+                    <h3>Questão 4 <span class="element-count" id="count4">0 selecionadas</span></h3>
+                    <div class="checkbox-grid" id="element4"></div>
+                </div>
+
+                <!-- Elemento 5 -->
+                <div class="element-section">
+                    <h3>Questão 5 <span class="element-count" id="count5">0 selecionadas</span></h3>
+                    <div class="checkbox-grid" id="element5"></div>
+                </div>
+
+                <button type="submit" class="submit-button" id="submitBtn">✨ Descobrir Meu Elemento</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Enviando suas respostas...</p>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <h2>🎉 Seus Resultados</h2>
+            <div class="dominant-element" id="dominantElement"></div>
+            <div class="all-results" id="allResults"></div>
+            <p style="margin-top: 30px; color: #6c757d;">Os resultados foram enviados para o seu email!</p>
+            <button class="restart-button" onclick="restartForm()">🔄 Refazer Questionário</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS with your public key
+        (function(){
+            emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
+        })();
+
+        const ADMIN_EMAIL = 'ragsappsai@gmail.com';
+
+        const elements = {
+            1: {
+                name: 'Madeira',
+                words: ['Primavera', 'Nascimento', 'Novos começos', 'Verde', 'Enraizado', 'Flexível', 'Que se curva', 'Adaptável', 'Forte', 'Criativa', 'Determinada', 'Auto-motivada', 'Batalhadora', 'Produtiva', 'Visionária', 'Regenerativa', 'Expansiva', 'Simples', 'Honesta, justa', 'Graciosa', 'Madura', 'Amadurecida, desenvolvida', 'Que se recupera rapidamente', 'Altos e baixos', 'Consome e cria', 'Quebradiça', 'Definhada', 'Extinta, desarraigada', 'Encharcada', 'Cortada aos pedaços', 'Torcida', 'Adormecida, inativa', 'Enterrada', 'Imóvel, fixa', 'Consumida, repleta', 'Apertada, transbordante', 'Intrusa', 'Inflexível', 'Mirrada', 'Pequena, mesquinha', 'Alta', 'Ambiciosa', 'Muito nervosa', 'Dedos longos', 'Fraca', 'Tradicional', 'Imatura', 'Desgastada', 'Imprevisível', 'Sonolenta', 'Raiva', 'Agressivo', 'Explosões', 'Pouca coragem / franca', 'Agitada', 'Ira', 'Excesso de trabalho', 'Letargia', 'Pouca iniciativa', 'Excesso de sinceridade', 'Não finge', 'Firme', 'Postura invejável', 'Difícil de derrubar', 'Defende seu ponto de vista', 'Não "dá o braço a torcer"', 'Sempre com a ultima palavra', 'Ação', 'Hiperativas', 'Age pelo impulso', 'Agir sem pensar', 'Faz acontecer', 'Não admite erros', 'Se cobra demais', 'Liderança', 'Chefia', 'Odeia rotina', 'Precisa sair de casa', 'Tensa', 'Stress', 'Problemas de tensões']
+            },
+            2: {
+                name: 'Fogo',
+                words: ['Quente', 'Luz', 'Que se mexe', 'Brilhante', 'Luminosa', 'Viva', 'Leveza', 'Claridade', 'Colorida', 'Faísca de criatividade', 'Vivaz', 'Resplandecente', 'Sol', 'Verão', 'Alegria', 'Iluminada', 'Embelezada', 'Transforma', 'Magnética', 'Atraente', 'Aberta', 'Intensa', 'Vibrante', 'Hipnotizada', 'Fusão', 'Excitada', 'Dramática', 'Carismática', 'Entusiasmada', 'Deslumbrante', 'Purificada', 'Tem voz estridente', 'Se liga facilmente à pessoas', 'Casa cheia de hóspede', 'Persuasiva', 'Suavizada', 'Furiosa', 'Explosiva', 'Muito quente', 'Consumista', 'Destrutiva', 'Escuridão', 'Sem luz/faísca', 'Cinza', 'Congelada', 'Ameaçadora', 'Errática', 'Que salta de um lugar para o outro', 'Imprevisível', 'Fora de controle', 'Exaustiva', 'Mutante', 'Que queima aos poucos', 'Que se queima sem chamas', 'Extinta', 'Selvagem', 'Sem vida', 'Queimada', 'Saltitante', 'Pessoa que coleciona por sentimentos', 'Drogada', 'Sorridente', 'Um grande amigo', 'Antenado', 'Não guarda raiva', 'Diplomata', 'Orgulhoso', 'Problemas para dormir', 'Imperador', 'Radiante', 'Expansivo', 'Auto-estima', 'Dominante', 'Agitado', 'Impaciente', 'Extrovertido', 'Seduz o mundo', 'Gastador compulsivo', 'Organizador de eventos', 'Prazeres da vida', 'Qualidade de vida']
+            },
+            3: {
+                name: 'Terra',
+                words: ['Sólida', 'Que nutre/ educa/ alimenta', 'Mãe', 'Que tem iniciativa', 'Predadora (super)', 'Receptiva', 'Curadora', 'Pulso', 'Coração', 'Rica', 'Constante', 'Previsível', 'Gravidade', 'Que contém', 'Capaz de recomeçar', 'Modulada', 'Transmutável', 'Devagar e sempre', 'Simples', 'Confortante', 'Que retém', 'Que sustenta', 'Estável', 'Materialista', 'Acomodada', 'Enraizada', 'Útero', 'Sensual', 'Redonda', 'Cíclica', 'Mutável', 'Equilibrada', 'Domada', 'Lamacenta', 'Enfraquecida', 'Dispersa', 'Poluída', 'Esgotada', 'Corroída', 'Confusa', 'Trincada', 'Seca', 'Poeira', 'Túmulo', 'Atirada', 'Dura/ difícil', 'Terra estéril', 'Dividida', 'Muito úmida', 'Debilitada', 'Decaída', 'Graduada', 'Pesada', 'Terremoto', 'Esconde seus medos', 'Sentimentos/ vazio interior', 'Não pedem ajuda', 'Problemas/ fertilidade', 'Abundante', 'Transformadora', 'Absorvente', 'Práticas', 'Expandem amor', 'Deve expressar seus sentimentos', 'Concepção', 'Conexão', 'Fundação', 'Confiável', 'Intuitivo', 'Sensível', 'Preocupação', 'Pensa muito', 'Estratégias', 'Não sai do lugar', 'Não gosta de mudanças', 'Tomar conta dos outros', 'Ouvir o outro', 'Se importa', 'Insubstituível', 'Presa ao passado', 'Melancolia']
+            },
+            4: {
+                name: 'Metal',
+                words: ['Brilhante', 'Fresca', 'Abundante', 'Valiosa', 'Densa', 'Organizada', 'Estruturada', 'Forte', 'Maleável', 'Agradável', 'Serena', 'Encontrada em veios', 'Comunicativa', 'Concentrada', 'Multifacetada', 'Intensa', 'Natureza dupla', 'contida porém condutora', 'Seletiva', 'Usa outros elementos parta se formar', 'Humilde', 'Definida', 'Madura', 'Pura', 'Redutível', 'Alquímica', 'Atraente', 'Condensadora', 'Substancia', 'Que suporta/ que aguenta', 'Purificadora', 'Encomenda', 'Enferrujada', 'Derretida', 'Quebrada', 'Enterrada', 'Escondida', 'Sobrecarregada', 'Tendenciosa', 'Afiada', 'Acabando', 'Rígida', 'Fragmentada', 'Áspera', 'Condensada', 'Pesada', 'Fria', 'Estagnada', 'Dura', 'Repelente', 'Tóxico', 'Cortante', 'Indesejável', 'Difícil alcance', 'Fixa', 'Desinibida', 'Controlada', 'Sufocada', 'Que reúne', 'Acabada', 'Restringida', 'O sal da terra', 'Força', 'Cristalina', 'Conservadora', 'Consolidação', 'Colheita', 'Segura os valores', 'Defende virtudes', 'Gosta de cerimônias', 'Segura', 'Não vulnerável', 'Disciplinada', 'Respeitadora', 'Formal', 'Inverno', 'Boca sábia', 'Pessoas com nariz fino', 'Pessoas com cabelos escuros e pele clara', 'Bonita', 'Refinada']
+            },
+            5: {
+                name: 'Água',
+                words: ['Harmoniosa', 'Graciosa', 'Calma', 'Que reflete', 'Profunda', 'Mutável', 'Dinâmica', 'Persistente', 'Fresca', 'Que se doa', 'Propulsionadora', 'Diversas formas', 'Penetrante', 'Musical', 'Acolhedora', 'Curadora', 'Condutiva', 'Primitiva', 'Brincalhona', 'Essência', 'Cascateante', 'Que causa furor', 'Dançante', 'Brilhante', 'Que suporta', 'Fonte', 'Serena', 'Inchada', 'Que evapora', 'Poluída', 'Adulterada', 'Inacessível', 'Abundante', 'Transbordante', 'Fervendo', 'Friorenta', 'Congelada', 'Divide coisas', 'Erosiva', 'Muito profunda', 'Invertida', 'Ressecada', 'Que desaparece', 'Terrível', 'Ameaçadora', 'Isolada', 'Enraivecida', 'Forte', 'Quente', 'Dura', 'Lenta', 'Rejeitável', 'Craquelada', 'Violenta', 'Gelada', 'Que inunda', 'Submissa', 'Refrescante', 'Revigorante', 'Receptáculo', 'Atirada', 'Que se move a pouco', 'Fluente', 'Doce', 'Salgada', 'Sonhadora', 'Humilde', 'Vaporosa', 'Criativa', 'Independente', 'Emotiva', 'Não gosta de mudanças', 'Precisa dos 5 elementos a sua volta', 'Que aspira', 'Decepcionada', 'Acabada', 'Fica nervosa rapidamente', 'Imaginação', 'Criação', 'Filósofo']
+            }
+        };
+
+        // Generate checkboxes for each element
+        Object.keys(elements).forEach(elementNum => {
+            const container = document.getElementById(`element${elementNum}`);
+            const element = elements[elementNum];
+            
+            element.words.forEach((word, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `e${elementNum}_${index}`;
+                checkbox.name = `element${elementNum}`;
+                checkbox.value = word;
+                checkbox.addEventListener('change', () => updateCount(elementNum));
+                
+                const label = document.createElement('label');
+                label.htmlFor = `e${elementNum}_${index}`;
+                label.textContent = word;
+                
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                container.appendChild(div);
+            });
+        });
+
+        // Update count for each element
+        function updateCount(elementNum) {
+            const checkboxes = document.querySelectorAll(`input[name="element${elementNum}"]:checked`);
+            const count = checkboxes.length;
+            document.getElementById(`count${elementNum}`).textContent = `${count} selecionadas`;
+        }
+
+        // Validate email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Handle form submission
+        document.getElementById('fengShuiForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get and validate user info
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+
+            let hasError = false;
+
+            // Validate name
+            if (!userName) {
+                document.getElementById('userName').classList.add('error');
+                document.getElementById('nameError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('userName').classList.remove('error');
+                document.getElementById('nameError').style.display = 'none';
+            }
+
+            // Validate email
+            if (!userEmail || !validateEmail(userEmail)) {
+                document.getElementById('userEmail').classList.add('error');
+                document.getElementById('emailError').style.display = 'block';
+                hasError = true;
+            } else {
+                document.getElementById('userEmail').classList.remove('error');
+                document.getElementById('emailError').style.display = 'none';
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            // Calculate results
+            const results = {};
+            const selectedWords = {};
+            
+            Object.keys(elements).forEach(elementNum => {
+                const checkboxes = document.querySelectorAll(`input[name="element${elementNum}"]:checked`);
+                results[elementNum] = {
+                    name: elements[elementNum].name,
+                    count: checkboxes.length
+                };
+                selectedWords[elementNum] = Array.from(checkboxes).map(cb => cb.value);
+            });
+
+            // Find dominant element
+            let maxCount = 0;
+            let dominantElement = null;
+            
+            Object.keys(results).forEach(key => {
+                if (results[key].count > maxCount) {
+                    maxCount = results[key].count;
+                    dominantElement = results[key];
+                }
+            });
+
+            // Display results immediately
+            displayResults(dominantElement, results);
+
+            // Send emails
+            await sendEmails(userName, userEmail, dominantElement, results, selectedWords);
+        });
+
+        async function sendEmails(userName, userEmail, dominant, allResults, selectedWords) {
+            // Show loading
+            document.getElementById('loading').classList.add('show');
+            
+            try {
+                // Prepare email content
+                const resultsText = Object.keys(allResults)
+                    .map(key => `${allResults[key].name}: ${allResults[key].count} palavras`)
+                    .join('\n');
+
+                const allWordsText = Object.keys(selectedWords)
+                    .map(key => `\n${elements[key].name}:\n${selectedWords[key].join(', ')}`)
+                    .join('\n');
+
+                // Email to user
+                const userEmailParams = {
+                    to_email: userEmail,
+                    to_name: userName,
+                    user_name: userName,
+                    dominant_element: dominant.name,
+                    dominant_count: dominant.count,
+                    all_results: resultsText,
+                    message: `Parabéns ${userName}! Seu elemento dominante é ${dominant.name} com ${dominant.count} palavras selecionadas.`
+                };
+
+                // Email to admin
+                const adminEmailParams = {
+                    to_email: ADMIN_EMAIL,
+                    to_name: 'Admin',
+                    user_name: userName,
+                    user_email: userEmail,
+                    dominant_element: dominant.name,
+                    dominant_count: dominant.count,
+                    all_results: resultsText,
+                    selected_words: allWordsText,
+                    message: `Nova resposta do formulário Feng Shui de ${userName} (${userEmail}). Elemento dominante: ${dominant.name} (${dominant.count} palavras).`
+                };
+
+                // Send email to user
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_USER', userEmailParams);
+                
+                // Send email to admin
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID_ADMIN', adminEmailParams);
+
+                console.log('Emails enviados com sucesso!');
+            } catch (error) {
+                console.error('Erro ao enviar emails:', error);
+                alert('Houve um erro ao enviar os emails. Por favor, tente novamente.');
+            } finally {
+                // Hide loading
+                document.getElementById('loading').classList.remove('show');
+            }
+        }
+
+        function displayResults(dominant, allResults) {
+            // Hide form
+            document.getElementById('formContent').style.display = 'none';
+            
+            // Show results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.classList.add('show');
+
+            // Display dominant element
+            const dominantDiv = document.getElementById('dominantElement');
+            dominantDiv.innerHTML = `
+                <h3>Seu Elemento Dominante é:</h3>
+                <p style="font-size: 3em; margin: 20px 0;">🌟 ${dominant.name} 🌟</p>
+                <p>${dominant.count} palavras selecionadas</p>
+            `;
+
+            // Display all results
+            const allResultsDiv = document.getElementById('allResults');
+            allResultsDiv.innerHTML = '';
+            
+            Object.keys(allResults).forEach(key => {
+                const result = allResults[key];
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <h4>${result.name}</h4>
+                    <div class="count">${result.count}</div>
+                    <p style="color: #6c757d; font-size: 0.9em;">selecionadas</p>
+                `;
+                allResultsDiv.appendChild(card);
+            });
+
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartForm() {
+            // Reset form
+            document.getElementById('fengShuiForm').reset();
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            
+            // Reset counts
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`count${i}`).textContent = '0 selecionadas';
+            }
+            
+            // Hide results and show form
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('formContent').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
